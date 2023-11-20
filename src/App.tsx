@@ -1,4 +1,6 @@
 import { useEffect } from "react"
+import Screens from "./screens";
+import ScreenItem from "./screens/components/ScreenItem";
 
 function App() {
 
@@ -8,7 +10,18 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Wassup!</h1>
+      <Screens>
+        <ScreenItem hash={"home"}>
+          home
+        </ScreenItem>
+        <ScreenItem hash={""}>
+          Wassupc
+        </ScreenItem>
+        
+        <ScreenItem hash={"404"}>
+          Wassupc
+        </ScreenItem>
+      </Screens>
     </div>
   )
 }

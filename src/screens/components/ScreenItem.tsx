@@ -1,18 +1,24 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 
 interface IScreenItem {
     hash: string;
+    flags?: string;
     children: ReactNode;
 }
 
-const ScreenItem: React.FC<IScreenItem> = ({ hash, children }) => {
-    const location = useLocation();
-    const [hashValue, setHashValue] = useState<string>(location.hash.substring(1));
+const ScreenItem: React.FC<IScreenItem> = ({ hash, flags, children }) => {
+    const [hashValue, setHashValue] = useState<string>(window.location.hash.substring(1));
 
     useEffect(() => {
         const handleHashChange = () => {
-            setHashValue(location.hash.substring(1));
+            let tempHashValue: any = window.location.hash.substring(1);
+            if(tempHashValue.split("")[0] == "/") {
+                tempHashValue = tempHashValue.replace("/", "");
+            }
+
+            console.log(tempHashValue);
+            
+            setHashValue(tempHashValue);
         };
 
         window.addEventListener("hashchange", handleHashChange);
@@ -20,10 +26,10 @@ const ScreenItem: React.FC<IScreenItem> = ({ hash, children }) => {
         return () => {
             window.removeEventListener("hashchange", handleHashChange);
         };
-    }, [location]);
+    }, []);
 
     return (
-        <div className={`app--screen ${hashValue === hash ? "active" : "in-active"}`}>
+        <div className={`app--screen ${hashValue === hash ? "--active" : "--inactive"}${hash=="404" ? " --404": ""} ${flags || ""}`}>
             {children}
         </div>
     );
