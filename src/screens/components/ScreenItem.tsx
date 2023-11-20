@@ -15,8 +15,6 @@ const ScreenItem: React.FC<IScreenItem> = ({ hash, flags, children }) => {
             if(tempHashValue.split("")[0] == "/") {
                 tempHashValue = tempHashValue.replace("/", "");
             }
-
-            console.log(tempHashValue);
             
             setHashValue(tempHashValue);
         };
