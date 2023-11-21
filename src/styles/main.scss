@@ -88,4 +88,21 @@
             opacity: 1;
         }
     }
+
+    &--navigator {
+        position: fixed;
+        bottom: 0;
+        padding: 1em 0.5em;
+        background-color: var(--fg);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+
+        .item {
+            padding: 0.5em;
+            color: var(--bg);
+            text-decoration: none;
+        }
+    }
 }

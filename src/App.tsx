@@ -1,6 +1,8 @@
 import { useEffect } from "react"
-import Screens from "./screens";
-import ScreenItem from "./screens/components/ScreenItem";
+import Screens from "./components/screens";
+import ScreenItem from "./components/screens/components/ScreenItem";
+import Home from "./screens/Home";
+import Navigator from "./components/navigator";
 
 function App() {
 
@@ -12,16 +14,17 @@ function App() {
     <div className="app">
       <Screens>
         <ScreenItem hash={"home"}>
-          home
+          <Home/>
         </ScreenItem>
         <ScreenItem hash={""}>
-          Wassupc
+          <Home/>
         </ScreenItem>
-        
         <ScreenItem hash={"404"}>
           Wassupc
         </ScreenItem>
       </Screens>
+      
+      <Navigator/>
     </div>
   )
 }
