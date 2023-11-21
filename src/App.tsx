@@ -4,6 +4,8 @@ import ScreenItem from "./components/screens/components/ScreenItem";
 import Home from "./screens/Home";
 import Navigator from "./components/navigator";
 import { HiInformationCircle } from "react-icons/hi2";
+import Settings from "./screens/Settings";
+import PageNotFound from "./screens/PageNotFound";
 
 function App() {
 
@@ -21,13 +23,10 @@ function App() {
           <Home/>
         </ScreenItem>
         <ScreenItem hash={"settings"}>
-          <h1>settings</h1>
+          <Settings/>
         </ScreenItem>
-        <ScreenItem hash={"404"}>
-          <center>
-            <HiInformationCircle/>
-            <h1>404 page not Found</h1>
-          </center>
+        <ScreenItem hash={"404"} flags="--404">
+          <PageNotFound/>
         </ScreenItem>
       </Screens>
       

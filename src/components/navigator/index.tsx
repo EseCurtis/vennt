@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { HiMiniHome, HiUserGroup } from "react-icons/hi2";
+import { HiCog6Tooth, HiMiniHome } from "react-icons/hi2";
 
 interface INavItem {
     children: ReactNode;
@@ -41,9 +41,9 @@ export default function Navigator () {
                 <span>Home</span>
             </NavItem>
 
-            <NavItem route="chat">
-                <HiUserGroup/>
-                <span>Chat</span>
+            <NavItem route="settings">
+                <HiCog6Tooth/>
+                <span>Settings</span>
             </NavItem>
         </div>
     )
