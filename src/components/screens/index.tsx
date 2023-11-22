@@ -1,24 +1,17 @@
 import React, { ReactNode, useEffect } from "react";
 
 interface IScreen {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 const Screens: React.FC<IScreen> = ({ children }) => {
+  useEffect(() => {
+    if (window.location.hash.length < 1) {
+      window.location.hash = "#home";
+    }
+  }, []);
 
-    useEffect(() => {
-        console.log(window.location.hash);
-
-            if(window.location.hash.length < 1) {
-                window.location.hash = "#home"
-            }
-    }, []);
-
-    return (
-        <div className="app--screens">
-            {children}
-        </div>
-    );
+  return <div className="app--screens">{children}</div>;
 };
 
 export default Screens;
