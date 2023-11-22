@@ -6,6 +6,7 @@
     color-scheme: light dark;
     --bg: #101418;
     --bg-secondary: #{lighten(#101418, 2)};
+    --bg-secondary-2: #{lighten(#101418, 10)};
     --fg: #fff;
     --accent: rgb(255, 94, 0);
 
@@ -19,6 +20,7 @@
     :root {
         --fg: #101418;
         --bg-secondary: #{darken(#fff, 2)};
+        --bg-secondary-2: #{darken(#fff, 5)};
         --bg: #fff;
     }
 }

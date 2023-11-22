@@ -6,6 +6,8 @@ import Navigator from "./components/navigator";
 import { HiInformationCircle } from "react-icons/hi2";
 import Settings from "./screens/Settings";
 import PageNotFound from "./screens/PageNotFound";
+import Conversation from "./screens/Conversation";
+import ScreenItemProtected from "./components/screens/components/ScreenItemProtected";
 
 function App() {
 
@@ -25,6 +27,9 @@ function App() {
         <ScreenItem hash={"settings"}>
           <Settings/>
         </ScreenItem>
+        <ScreenItemProtected hash={"conversation"} condition={true} fallbackHash="home" >
+          <Conversation/>
+        </ScreenItemProtected>
         <ScreenItem hash={"404"} flags="--404">
           <PageNotFound/>
         </ScreenItem>

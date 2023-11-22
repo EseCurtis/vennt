@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
 
-interface IScreenItem {
+export interface IScreenItem {
     hash: string;
     flags?: string;
     children: ReactNode;
@@ -27,7 +27,7 @@ const ScreenItem: React.FC<IScreenItem> = ({ hash, flags, children }) => {
     }, []);
 
     return (
-        <div className={`app--screen ${hashValue === hash ? "--active" : "--inactive"}${hash=="404" ? " --404": ""} ${flags || ""}`}>
+        <div className={`app--screen ${flags !== "--404" ? hashValue === hash ? "--active" : "--inactive" : ""} ${flags || ""}`}>
             {children}
         </div>
     );
