@@ -1,4 +1,5 @@
 import React, { ReactNode, useEffect } from "react";
+import { HashRoute } from "../../utils/Screen";
 
 interface IScreen {
   children: ReactNode;
@@ -7,7 +8,7 @@ interface IScreen {
 const Screens: React.FC<IScreen> = ({ children }) => {
   useEffect(() => {
     if (window.location.hash.length < 1) {
-      window.location.hash = "#home";
+      HashRoute("home");
     }
   }, []);
 

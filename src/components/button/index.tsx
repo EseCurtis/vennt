@@ -4,11 +4,13 @@ interface IButton {
   className?: string;
   children: ReactNode;
   isSecondary?: boolean;
+  onClick?: () => void; 
 }
 
 interface IButtonSecondary {
     className?: string;
     children: ReactNode;
+    onClick?: () => void; 
 }
 
 export default function Button({

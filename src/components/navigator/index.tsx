@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState, useRef } from "react";
 import {
-  HiChatBubbleLeftEllipsis,
   HiCog6Tooth,
   HiMiniHome
 } from "react-icons/hi2";
@@ -74,10 +73,10 @@ export default function Navigator() {
         <span>Settings</span>
       </NavItem>
 
-      <NavItem route="conversation">
+      {/* <NavItem route="conversation">
         <HiChatBubbleLeftEllipsis />
         <span>Conversation</span>
-      </NavItem>
+      </NavItem> */}
     </div>
   );
 }

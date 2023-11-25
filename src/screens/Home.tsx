@@ -1,11 +1,23 @@
-import { HiHeart, HiOutlineEye, HiOutlineHeart, HiOutlineInformationCircle, HiOutlineUser, HiOutlineUsers, HiUsers } from "react-icons/hi2";
+import { HiHeart, HiOutlineInformationCircle, HiUsers } from "react-icons/hi2";
 import Button, { ButtonSecondary } from "../components/button";
 import Header from "../components/header";
+import { UserSlice } from "../store/slices/User";
+import { TVentSpaceUserType } from "../store/slices/VentSpace";
+import { useDispatch } from "react-redux";
+import { BroadcasterSlice } from "../store/slices/Broadcaster";
 
 export default function Home() {
+  const dispatcher = useDispatch();
+
+  const startConvo = (type: TVentSpaceUserType) => {
+    dispatcher(UserSlice.actions.generateUsername(type));
+    dispatcher(UserSlice.actions.setType(type));
+    location.hash = `#conversation`;
+  };
+
   return (
     <div className="app--home flex flex-col p-5 gap-3">
-      <Header/>
+      <Header />
       <div className="intro-card relative bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--bg-secondary-2)]">
         <HiOutlineInformationCircle className="absolute right-0 top-0 m-5 text-lg text-[var(--accent)]" />
         <h3 className="text-[20px] font-bold">Greetings!</h3>
@@ -26,8 +38,18 @@ export default function Home() {
           caring ear? 🌈
         </p>
         <div className="flex justify-evenly mt-3 gap-3">
-          <Button className="flex flex-row items-center justify-center gap-1">Share <HiHeart/></Button>
-          <ButtonSecondary className="flex flex-row items-center justify-center gap-1">Listen <HiUsers/></ButtonSecondary>
+          <Button
+            className="flex flex-row items-center justify-center gap-1"
+            onClick={() => startConvo("speaker")}
+          >
+            Share <HiHeart />
+          </Button>
+          <ButtonSecondary
+            className="flex flex-row items-center justify-center gap-1"
+            onClick={() => startConvo("listener")}
+          >
+            Listen <HiUsers />
+          </ButtonSecondary>
         </div>
       </div>
     </div>

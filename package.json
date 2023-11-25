@@ -13,7 +13,7 @@
     "@reduxjs/toolkit": "^1.9.7",
     "@types/uuid": "^9.0.7",
     "lodash": "^4.17.21",
-    "qwickjs": "^1.1.0",
+    "qwickjs": "^1.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",

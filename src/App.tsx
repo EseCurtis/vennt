@@ -8,38 +8,26 @@ import PageNotFound from "./screens/PageNotFound";
 import Conversation from "./screens/Conversation";
 import ScreenItemProtected from "./components/screens/components/ScreenItemProtected";
 import { useDispatch, useSelector } from "react-redux";
-import { UserSlice } from "./store/slices/User";
 import { RootState } from "./store";
-import useBroadcast, { IBroadcast } from "./broadcast";
+import { UserSlice } from "./store/slices/User";
+import { BroadcasterSlice } from "./store/slices/Broadcaster";
+import useBroadcast from "./broadcast";
+import Convo from "./screens/Convo";
 
 function App() {
-  const { UserID, UserType } = useSelector((state: RootState) => state.user);
-  const activeUsers = useSelector(
-    (state: RootState) => state.ventSpace.activeUsers
-  );
   const dispatcher = useDispatch();
-  const [broadcaster, setBroadcaster] = useState<IBroadcast | null>(null);
+  const { UserID } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     document.querySelector(".splash-screen")?.classList.add("loaded");
     dispatcher(UserSlice.actions.generateId());
-    dispatcher(UserSlice.actions.setType("listener"));
   }, []);
 
   useEffect(() => {
-    setBroadcaster(useBroadcast(UserID));
-  }, [UserID]);
-
-  useEffect(() => {
-    if (broadcaster) {
-      broadcaster.VentSpace.add.broadcast({ _id: UserID, type: UserType }, "public");
+    if (UserID) {
+      dispatcher(BroadcasterSlice.actions.init(useBroadcast(UserID)));
     }
-  }, [broadcaster]);
-
-  useEffect(() => {
-    console.log(activeUsers);
-  }, [activeUsers]);
-
+  }, [UserID]);
 
   return (
     <div className="app">
@@ -58,7 +46,7 @@ function App() {
           condition={true}
           fallbackHash="home"
         >
-          <Conversation />
+          <Convo />
         </ScreenItemProtected>
         <ScreenItem hash={"404"} flags="--404">
           <PageNotFound />

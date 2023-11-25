@@ -3,6 +3,8 @@ import { UserSlice } from './slices/User';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage/session';
 import { VentSpaceSlice } from './slices/VentSpace';
+import { BroadcasterSlice } from './slices/Broadcaster';
+import { ConversationSlice } from './slices/Conversation';
 
 const userPersistConfig = {
   key: 'user',
@@ -14,13 +16,14 @@ const persistedUserReducer = persistReducer(userPersistConfig, UserSlice.reducer
 export const store = configureStore({
   reducer: {
     user: persistedUserReducer,
-    ventSpace: VentSpaceSlice.reducer
+    ventSpace: VentSpaceSlice.reducer,
+    broadcaster: BroadcasterSlice.reducer,
+    conversation: ConversationSlice.reducer
   },
+
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: ['persist/PERSIST'],
-      },
+      serializableCheck: false
     })
 });
 

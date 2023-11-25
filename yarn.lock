@@ -1725,10 +1725,10 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-qwickjs@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/qwickjs/-/qwickjs-1.1.0.tgz#6fc0b0131d3ff71cd0f179d5c0d712baa4465483"
-  integrity sha512-Ja/1GkSsu+7jwAW77XxOJhRy3hfDMegaKKBY0V10am+SgsWzWw/h8VFr8HOT5d3MxO+EwAXstRTpXYbfYf0R6g==
+qwickjs@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/qwickjs/-/qwickjs-1.2.2.tgz#dc13ac595fb47bcc2d04a8ed5c89cab5d56cdcd2"
+  integrity sha512-WtrGuTnUgUNUQAPvESlk5WgL0SpczjqIosMrz5fjuNrW9lAFlFgxu+RdI6HMQNpODYL3W9IUX/7MTBnIIZehvg==
   dependencies:
     socket.io-client "^4.7.2"
 

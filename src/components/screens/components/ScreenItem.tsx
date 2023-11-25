@@ -7,11 +7,11 @@ export interface IScreenItem {
 }
 
 const ScreenItem: React.FC<IScreenItem> = ({ hash, flags, children }) => {
-    const [hashValue, setHashValue] = useState<string>(window.location.hash.substring(1));
+    const [hashValue, setHashValue] = useState<string>(window.location.hash.substring(1).toLowerCase());
 
     useEffect(() => {
         const handleHashChange = () => {
-            let tempHashValue: any = window.location.hash.substring(1);
+            let tempHashValue: any = window.location.hash.substring(1).toLowerCase();
             if(tempHashValue.split("")[0] == "/") {
                 tempHashValue = tempHashValue.replace("/", "");
             }
