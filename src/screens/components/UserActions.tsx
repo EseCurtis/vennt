@@ -1,7 +1,6 @@
 import React from "react";
 import Button, { ButtonSecondary } from "../../components/button";
 import { request, cancelRequest, startConversation } from "./actions/request";
-import { startChat } from "../../store/slices/Conversation";
 
 interface UserActionsProps {
   userType: string;

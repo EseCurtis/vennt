@@ -11,10 +11,10 @@ const userPersistConfig = {
   storage,
 };
 
-const conversationPersistConfig = {
-  key: 'conversation',
-  storage,
-};
+// const conversationPersistConfig = {
+//   key: 'conversation',
+//   storage,
+// };
 
 const persistedUserReducer = persistReducer(userPersistConfig, UserSlice.reducer);
 //const persistedConversationReducer = persistReducer(conversationPersistConfig, ConversationSlice.reducer);

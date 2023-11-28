@@ -81,7 +81,7 @@ const useBroadcast = (UserID: string) => {
     }
   });
 
-  VentSpace.activeUsers.listenDisconnect((info: any) => {
+  VentSpace.activeUsers.listenDisconnect(() => {
     store
       .getState()
       .ventSpace.activeUsers.forEach(async (user: { _id: string }) => {

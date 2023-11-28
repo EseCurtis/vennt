@@ -52,7 +52,7 @@ const MessageBubble = ({ UserID, message }: any) => {
 export default function Conversation() {
   const dispatcher = useDispatch();
   const chatboxRef: RefObject<HTMLDivElement> = useRef(null);
-  const { VentSpace } = useSelector((state: RootState) => state.broadcaster);
+  //const { VentSpace } = useSelector((state: RootState) => state.broadcaster);
   const { UserID, UserType } = useSelector((state: RootState) => state.user);
   const { searchedUser, activeUsers } = useSelector(
     (state: RootState) => state.ventSpace
