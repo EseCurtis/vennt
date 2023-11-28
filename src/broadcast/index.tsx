@@ -47,8 +47,6 @@ const useBroadcast = (UserID: string) => {
         store.dispatch(
           ConversationSlice.actions.startChat(updateData.conversing)
         );
-
-        console.log(store.getState().conversation);
       }
       store.dispatch(UserSlice.actions.update(updatedUser));
     }
@@ -76,8 +74,11 @@ const useBroadcast = (UserID: string) => {
     });
   });
 
-  UserSpace.session.listen((info: any) => {
-    console.log("user dat:", info);
+  UserSpace.session.listen((payload: any) => {
+    //console.log("recieved info:", payload);
+    if (payload.message) {
+      store.dispatch(ConversationSlice.actions.addMessage(payload.message));
+    }
   });
 
   VentSpace.activeUsers.listenDisconnect((info: any) => {

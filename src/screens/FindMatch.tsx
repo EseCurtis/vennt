@@ -7,23 +7,33 @@ import userCommunication from "./components/actions/userCommunication";
 import broadcast from "./components/actions/broadcast";
 import MatchedUsersCard from "./components/MatchedUsersCard";
 import Card, { Title, Paragraph } from "../components/card";
-import { HashRoute } from "../utils/Screen";
+import { HashRoute, matchesRoute } from "../utils/Screen";
+import { RootState } from "../store";
 
-const Convo: React.FC = () => {
-  const { activeUsers } = useSelector((state: any) => state.ventSpace);
-  const { UserID, UserType, UserName, UserRequesting } = useSelector((state: any) => state.user);
-  const broadcaster = useSelector((state: any) => state.broadcaster);
+const FindMatch: React.FC = () => {
+  const { activeUsers } = useSelector((state: RootState) => state.ventSpace);
+  const { UserID, UserType, UserName, UserRequesting } = useSelector((state: RootState) => state.user);
+  const { conversing } = useSelector((state: RootState) => state.conversation);
+  const broadcaster = useSelector((state: RootState) => state.broadcaster);
   const [matchedUsers, setMatchedUsers] = useState<any[]>([]);
   const [requestingUsers, setRequestingUsers] = useState<any[]>([]);
 
   useEffect(() => {
-    if(!UserName) {
-      HashRoute("home")
+    if(!UserName && matchesRoute("find-match")) {
+      HashRoute("home");
     }
   }, [UserName]);
 
   useEffect(() => {
-    broadcast(broadcaster, UserID, UserType, UserName);
+    if(conversing && matchesRoute("find-match")) {
+      HashRoute("conversation");
+    }
+  }, [conversing]);
+
+  useEffect(() => {
+    if(UserID && UserType && UserName) {
+      broadcast(broadcaster, UserID, UserType, UserName);
+    }
   }, [broadcaster, UserID, UserType, UserName]);
 
   useEffect(() => {
@@ -45,7 +55,6 @@ const Convo: React.FC = () => {
         });
 
         setRequestingUsers(requestingUsersTemp);
-        ///console.log("req:", requestingUsers);
       }
     }
   }, [activeUsers]);
@@ -82,7 +91,7 @@ const Convo: React.FC = () => {
                   user={matchedUser}
                   userCommunication={userCommunication}
                   broadcaster={broadcaster}
-                  currentUserID={UserID}
+                  currentUserID={UserID ?? ""}
                 />
               </Fragment>
             ))}
@@ -92,12 +101,12 @@ const Convo: React.FC = () => {
             {matchedUsers.map((matchedUser, i) => (
               <Fragment key={i}>
                 <MatchedUsersCard
-                  userType={UserType}
+                  userType={UserType ?? ""}
                   user={matchedUser}
                   userRequesting={UserRequesting}
                   userCommunication={userCommunication}
                   broadcaster={broadcaster}
-                  currentUserID={UserID}
+                  currentUserID={UserID ?? ""}
                 />
               </Fragment>
             ))}
@@ -108,4 +117,4 @@ const Convo: React.FC = () => {
   );
 };
 
-export default Convo;
+export default FindMatch;

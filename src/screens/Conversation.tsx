@@ -1,201 +1,175 @@
-//@ts-ignore
-import Qwick from "qwickjs";
-import { useSelector } from "react-redux";
-import Card, { Paragraph, Title } from "../components/card";
-import Header from "../components/header";
-import { HiMiniSignal } from "react-icons/hi2";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import ConditionalRender from "../components/ConditionalRender";
-import { Fragment, useEffect, useState } from "react";
-import Button, { ButtonSecondary } from "../components/button";
+import { Fragment, RefObject, useEffect, useRef, useState } from "react";
+import { HashRoute, matchesRoute } from "../utils/Screen";
+import { VentSpaceSlice } from "../store/slices/VentSpace";
+import { HiArrowUp, HiMiniHeart, HiUsers, HiXMark } from "react-icons/hi2";
+import userCommunication from "./components/actions/userCommunication";
+import { ConversationSlice } from "../store/slices/Conversation";
+import moment from "moment-timezone";
 
-const SearchingForMatch = () => {
-  return (
-    <div className="flex flex-col items-center justify-center py-10">
-      <HiMiniSignal className="text-[10em] text-[var(--accent)] animate-pulse" />
-      <h3 className="text-center opacity-60">
-        Finding the perfect match for your conversation. Please hold on!
-      </h3>
+const MessageBubble = ({ UserID, message }: any) => {
+  const defaultStyle = " flex flex-col px-5 py-2 rounded-lg mb-2 break-words";
+  const [timeAgo, setTimeAgo] = useState<string>(
+    moment(message.timestamp).fromNow()
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeAgo(moment(message.timestamp).fromNow());
+    }, 60000); // Update every minute
+
+    return () => clearInterval(interval);
+  }, [message.timestamp]);
+
+  return UserID == message.authorID ? (
+    <div className="flex justify-end">
+      <div
+        className={
+          "max-w-[70%] bg-[var(--accent-opaque)]  border border-[var(--accent)]" +
+          defaultStyle
+        }
+      >
+        {message.body}
+        <span className="text-xs mt-1 opacity-40">{timeAgo}</span>
+      </div>
+    </div>
+  ) : (
+    <div className="flex justify-start">
+      <div
+        className={
+          "max-w-[70%] bg-[var(--bg-secondary)] border border-[var(--bg-secondary-2)]" +
+          defaultStyle
+        }
+      >
+        {message.body}
+        <span className="text-xs mt-1 opacity-40">{timeAgo}</span>
+      </div>
     </div>
   );
 };
 
 export default function Conversation() {
-  const { activeUsers } = useSelector((state: RootState) => state.ventSpace);
-  const { UserID, UserType, UserName, UserRequesting } = useSelector(
-    (state: RootState) => state.user
+  const dispatcher = useDispatch();
+  const chatboxRef: RefObject<HTMLDivElement> = useRef(null);
+  const { VentSpace } = useSelector((state: RootState) => state.broadcaster);
+  const { UserID, UserType } = useSelector((state: RootState) => state.user);
+  const { searchedUser, activeUsers } = useSelector(
+    (state: RootState) => state.ventSpace
   );
-  const broadcaster = useSelector((state: RootState) => state.broadcaster);
-  const [matchedUsers, setMatchedUsers] = useState<any[]>([]);
-  const [requestingUsers, setRequestingUsers] = useState<any[]>([]);
-  const userInstances: any[number | string] = [];
-
-  const messageUser = (userID: string) => {
-    return 0;
-    if (!userInstances[userID]) {
-      userInstances[userID] = new Qwick(userID, { allowLogging: true });
-    }
-
-    userInstances[userID].broadcast("wassup!--" + userID, "public");
-  };
+  const { conversing, messages, conversation } = useSelector(
+    (state: RootState) => state.conversation
+  );
+  const [message, setMessage] = useState<string>("");
+  const [chatMessages, setChatMessages] = useState<any[]>([]);
 
   useEffect(() => {
-    console.table(UserRequesting);
+    if (!conversing && matchesRoute("conversation")) {
+      HashRoute("home");
+    }
   }, []);
 
   useEffect(() => {
-    console.log(broadcaster);
-  }, [broadcaster]);
+    if (searchedUser.length > 0 && matchesRoute("conversation")) {
+      dispatcher(VentSpaceSlice.actions.getActiveUser(searchedUser[0]?._id));
 
-  const requestConversation = (_id: string) => {
-    if (broadcaster) {
-      if (broadcaster.VentSpace) {
-        broadcaster.VentSpace.update.broadcast({
-          _id: UserID,
-          requesting: _id
-        });
-      }
-    }
-  };
-
-  const cancelConversation = () => {
-    if (broadcaster) {
-      if (broadcaster.VentSpace) {
-        broadcaster.VentSpace.update.broadcast({
-          _id: UserID,
-          requesting: null
-        });
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (activeUsers) {
-      //console.log(activeUsers);
-      setMatchedUsers(
-        activeUsers.filter(
-          (activeUser) =>
-            activeUser.type !== "speaker" && activeUser._id !== UserID
-        )
-      );
-
-      if (UserType === "listener") {
-        const requestingUsersTemp: any[] = [];
-
-        activeUsers.forEach((activeUser) => {
-          if (activeUser.requesting == UserID) {
-            requestingUsersTemp.push(activeUser);
-          }
-        });
-
-        setRequestingUsers(requestingUsersTemp);
-        console.log("req:", requestingUsers);
+      console.log("searched user:", searchedUser);
+      if (searchedUser.length < 1) {
+        HashRoute("home");
       }
     }
   }, [activeUsers]);
 
   useEffect(() => {
-    if (broadcaster && UserID && UserType && UserName) {
-      if (broadcaster.VentSpace) {
-        broadcaster.VentSpace.add.broadcast(
-          { _id: UserID, type: UserType, username: UserName },
-          "public"
-        );
-      }
+    setChatMessages(conversation);
+    setTimeout(() => {
+      chatboxRef.current?.scrollTo({
+        top: chatboxRef.current.scrollHeight * 2,
+        behavior: "smooth"
+      });
+    }, 0);
+  }, [conversation]);
+
+  useEffect(() => {
+    if (messages && searchedUser) {
+      dispatcher(
+        ConversationSlice.actions.getConversation({
+          senderID: UserID,
+          recieverID: searchedUser[0]?._id
+        })
+      );
     }
-    if (broadcaster && UserID) {
-      if (broadcaster.VentSpace) {
-        broadcaster.VentSpace.update.broadcast({
-          _id: UserID,
-          UserType: UserType
-        });
-      }
+  }, [messages]);
+
+  useEffect(() => {
+    if (conversing) {
+      dispatcher(VentSpaceSlice.actions.getActiveUser(conversing));
     }
-  }, [broadcaster, UserID, UserType]);
+    console.log("life:",conversing);
+  }, [conversing]);
+
+  const isMessageEmpty = message.trim() === "";
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+
+    const sentMessage = {
+      body: message,
+      authorID: UserID!,
+      timestamp: new Date().getTime()
+    };
+
+    if (sentMessage) {
+      userCommunication.messageUser(searchedUser[0]._id, sentMessage);
+      dispatcher(ConversationSlice.actions.addMessage(sentMessage));
+
+      setMessage("");
+    }
+  };
 
   return (
-    <div className="p-5">
-      <Header />
-
-      <div className="text-center">
-        <Card>
-          <Title>Vennt Conversations 🌟</Title>
-          <div className="flex items-center justify-center gap-3">
-            <h3 className="flex px-2 py-1 text-center w-auto text-yellow-500 bg-yellow-600/30 rounded-lg">
-              {UserName}
-            </h3>
-            <h3 className="flex px-2 py-1 text-center w-auto text-green-500 bg-green-600/30 rounded-lg">
-              {UserType}
-            </h3>
-          </div>
-          <Paragraph>
-            Kindness goes a long way. Share your thoughts, lend an ear, and
-            create a supportive atmosphere.
-          </Paragraph>
-        </Card>
+    <div ref={chatboxRef} className="p-5 overflow-y-scroll max-h-full">
+      <div className="p-3 px-1 flex items-center justify-start gap-2 pb-4 border-b border-[var(--bg-secondary-2)]">
+        <span className="py-1 px-2 bg-[var(--accent-opaque)] text-[var(--accent-light)] rounded-lg">
+          {searchedUser[0]?.username}
+        </span>
+        <span className="text-[var(--accent-light)]">
+          {UserType == "listener" ? <HiUsers /> : <HiMiniHeart />}
+        </span>
+        <span className="ml-auto flex items-center justify-start gap-2 bg-[var(--bg-secondary)] p-1 px-2 rounded-lg">
+          <HiXMark /> close
+        </span>
+      </div>
+      <div className="flex flex-col pt-3">
+        {chatMessages.map((message, i) => (
+          <Fragment key={i}>
+            <MessageBubble UserID={UserID} message={message} />
+          </Fragment>
+        ))}
       </div>
 
-      {/* <Card>
-        {JSON.stringify(activeUsers)}
-      </Card> */}
-
-      <ConditionalRender condition={true} fallback={<SearchingForMatch />}>
-        <div className="flex flex-col gap-3 mt-3">
-          {(UserType == "listener" ? requestingUsers : matchedUsers)?.map(
-            (matchedUser, i) => {
-              return (
-                <Fragment key={i}>
-                  <Card>
-                    <div
-                      className="flex flex-col"
-                      onClick={() => messageUser(matchedUser._id)}
-                    >
-                      <div>
-                        <b>{matchedUser.username}</b>
-                      </div>
-                      <div className="flex items-center justify-start gap-3 text-xs mt-2">
-                        <h3 className="flex px-2 py-1 text-center w-auto text-yellow-500 bg-yellow-600/30 rounded-lg">
-                          {matchedUser.username}
-                        </h3>
-                        <h3 className="flex px-2 py-1 text-center w-auto text-green-500 bg-green-600/30 rounded-lg">
-                          {matchedUser.type}
-                        </h3>
-                      </div>
-                      <br />
-                      <div className="flex gap-3">
-                        {UserType == "listener" ? (
-                          <>
-                            <Button> Accept </Button>
-                            <ButtonSecondary> Reject </ButtonSecondary>
-                          </>
-                        ) : UserRequesting ? (
-                          <>
-                            <ButtonSecondary
-                              onClick={() => cancelConversation()}
-                            >
-                              Cancel Request
-                            </ButtonSecondary>
-                          </>
-                        ) : (
-                          <>
-                            <Button
-                              onClick={() =>
-                                requestConversation(matchedUser._id)
-                              }
-                            >
-                              Send Request
-                            </Button>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </Card>
-                </Fragment>
-              );
-            }
-          )}
-        </div>
-      </ConditionalRender>
+      <div className="text-box absolute z-50 bg-[var(--bg-secondary)] w-full h-[70px] bottom-1 left-0 border-t border-[var(--bg-secondary-2)]">
+        <form
+          className="flex h-full w-full p-4 items-center justify-center gap-3"
+          onSubmit={handleSubmit}
+        >
+          <input
+            type="text"
+            className="p-3 outline-none border-none rounded-xl bg-[var(--bg-secondary-2)]"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button
+            type="submit"
+            className={`transition-all bg-[var(--accent)] p-3 rounded-xl active:scale-90 ${
+              isMessageEmpty ? "grayscale opacity-50 pointer-events-none" : ""
+            }`}
+            disabled={isMessageEmpty}
+          >
+            <HiArrowUp />
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

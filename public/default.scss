@@ -1,3 +1,5 @@
+$accent:  rgb(255, 94, 0);
+
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
@@ -8,7 +10,9 @@
     --bg-secondary: #{lighten(#101418, 2)};
     --bg-secondary-2: #{lighten(#101418, 10)};
     --fg: #fff;
-    --accent: rgb(255, 94, 0);
+    --accent: #{$accent};
+    --accent-opaque: #{transparentize($accent, 0.9)};
+    --accent-light: #{lighten($accent, 10)};
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;

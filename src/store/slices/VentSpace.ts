@@ -1,9 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { store } from '..';
-
-export interface IUserState {
-    activeUsers: any[];
-}
 
 export type TVentSpaceUserType = "listener" | "speaker";
 
@@ -12,11 +7,17 @@ export interface IVentSpaceUser {
     _self:boolean;
     type: TVentSpaceUserType;
     requesting: string | null;
+    username?: string;
 }
 
+export interface IVentSpaceState {
+    activeUsers: any[];
+    searchedUser: IVentSpaceUser[];
+}
 
-const initialState: IUserState = {
+const initialState: IVentSpaceState = {
     activeUsers: [],
+    searchedUser: []
 };
 
 export const VentSpaceSlice = createSlice({
@@ -52,6 +53,10 @@ export const VentSpaceSlice = createSlice({
                     return user;
                 }
             });
+        },
+
+        getActiveUser: (state, action: PayloadAction<string>) => {
+            state.searchedUser = state.activeUsers.filter(user => user._id == action.payload);
         },
 
         removeUser: (state, action: PayloadAction<string>) => {

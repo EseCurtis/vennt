@@ -4,7 +4,7 @@ import Header from "../components/header";
 import { UserSlice } from "../store/slices/User";
 import { TVentSpaceUserType } from "../store/slices/VentSpace";
 import { useDispatch } from "react-redux";
-import { BroadcasterSlice } from "../store/slices/Broadcaster";
+import { HashRoute } from "../utils/Screen";
 
 export default function Home() {
   const dispatcher = useDispatch();
@@ -12,7 +12,7 @@ export default function Home() {
   const startConvo = (type: TVentSpaceUserType) => {
     dispatcher(UserSlice.actions.generateUsername(type));
     dispatcher(UserSlice.actions.setType(type));
-    location.hash = `#conversation`;
+    HashRoute("find-match");
   };
 
   return (

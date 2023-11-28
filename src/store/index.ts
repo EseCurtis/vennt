@@ -11,14 +11,20 @@ const userPersistConfig = {
   storage,
 };
 
+const conversationPersistConfig = {
+  key: 'conversation',
+  storage,
+};
+
 const persistedUserReducer = persistReducer(userPersistConfig, UserSlice.reducer);
+//const persistedConversationReducer = persistReducer(conversationPersistConfig, ConversationSlice.reducer);
 
 export const store = configureStore({
   reducer: {
     user: persistedUserReducer,
     ventSpace: VentSpaceSlice.reducer,
     broadcaster: BroadcasterSlice.reducer,
-    conversation: ConversationSlice.reducer
+    conversation: ConversationSlice.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>

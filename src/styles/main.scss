@@ -115,6 +115,7 @@
         align-items: center;
         justify-content: space-evenly;
         z-index: 6;
+        transition: 0.4s;
 
         .item {
             padding: 0.5em;
@@ -146,5 +147,11 @@
                 transition: 0.4s;
             }
         }
+    }
+}
+
+.--hide-nav {
+    .app--navigator {
+        transform: translateY(100vh);
     }
 }

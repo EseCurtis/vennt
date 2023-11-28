@@ -26,9 +26,7 @@ export const UserSlice = createSlice({
   initialState,
   reducers: {
     generateId: (state) => {
-      if (!state.UserID) {
-        state.UserID = uuidv4();
-      }
+      state.UserID = uuidv4();
     },
     setType: (state, action: { payload: TVentSpaceUserType }) => {
       state.UserType = action.payload
