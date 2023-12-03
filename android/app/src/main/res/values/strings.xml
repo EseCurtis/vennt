@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ventt-io</string>
+    <string name="title_activity_main">ventt-io</string>
+    <string name="package_name">io.ventt.dezrektech</string>
+    <string name="custom_url_scheme">io.ventt.dezrektech</string>
+</resources>

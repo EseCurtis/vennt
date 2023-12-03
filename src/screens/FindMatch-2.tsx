@@ -44,7 +44,7 @@ export default function FindMatch2() {
   }, []);
 
   useEffect(() => {
-    //console.log(broadcaster);
+    ////console.log(broadcaster);
   }, [broadcaster]);
 
   const requestConversation = (_id: string) => {
@@ -71,7 +71,7 @@ export default function FindMatch2() {
 
   useEffect(() => {
     if (activeUsers) {
-      //console.log(activeUsers);
+      ////console.log(activeUsers);
       setMatchedUsers(
         activeUsers.filter(
           (activeUser) =>
@@ -89,7 +89,7 @@ export default function FindMatch2() {
         });
 
         setRequestingUsers(requestingUsersTemp);
-        //console.log("req:", requestingUsers);
+        ////console.log("req:", requestingUsers);
       }
     }
   }, [activeUsers]);

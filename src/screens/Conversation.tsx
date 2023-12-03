@@ -73,7 +73,7 @@ export default function Conversation() {
     if (searchedUser.length > 0 && matchesRoute("conversation")) {
       dispatcher(VentSpaceSlice.actions.getActiveUser(searchedUser[0]?._id));
 
-      console.log("searched user:", searchedUser);
+      //console.log("searched user:", searchedUser);
       if (searchedUser.length < 1) {
         HashRoute("home");
       }
@@ -105,7 +105,7 @@ export default function Conversation() {
     if (conversing) {
       dispatcher(VentSpaceSlice.actions.getActiveUser(conversing));
     }
-    console.log("life:",conversing);
+    //console.log("life:",conversing);
   }, [conversing]);
 
   const isMessageEmpty = message.trim() === "";
@@ -148,16 +148,17 @@ export default function Conversation() {
         ))}
       </div>
 
-      <div className="text-box absolute z-50 bg-[var(--bg-secondary)] w-full h-[70px] bottom-1 left-0 border-t border-[var(--bg-secondary-2)]">
+      <div className="text-box absolute z-50 bg-[var(--bg-secondary)] w-[100%] h-[70px] bottom-1 left-[50%] translate-x-[-50%] border-t border-[var(--bg-secondary-2)]">
         <form
-          className="flex h-full w-full p-4 items-center justify-center gap-3"
+          className="flex h-full w-[100%] p-4 items-center justify-center gap-3"
           onSubmit={handleSubmit}
         >
           <input
             type="text"
-            className="p-3 outline-none border-none rounded-xl bg-[var(--bg-secondary-2)]"
+            className="p-3 outline-none border-none rounded-xl bg-[var(--bg-secondary-2)] w-[70%]"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            placeholder="What's on your mind?"
           />
           <button
             type="submit"

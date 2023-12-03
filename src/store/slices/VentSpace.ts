@@ -47,7 +47,7 @@ export const VentSpaceSlice = createSlice({
             state.activeUsers = state.activeUsers.map(user => {
                 if(user._id == action.payload._id) {
                     const updatedUser = {...user, ...action.payload};
-                    //console.log(updatedUser);
+                    ////console.log(updatedUser);
                     return updatedUser;
                 } else {
                     return user;

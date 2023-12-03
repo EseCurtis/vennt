@@ -54,7 +54,7 @@ class Qwick {
         return result.existence;
     }
 
-    #showLog(log, logger = console.log) {
+    #showLog(log, logger = //console.log) {
         if (this.config?.allowLogging) {
             const timestamp = new Date().toISOString();
             let methodName = 'Method';
@@ -188,7 +188,7 @@ class Qwick {
         if (response.ok) {
             const result = await response.json();
             if (result.success) {
-                this.#showLog(result.message, console.log);
+                this.#showLog(result.message, //console.log);
             } else {
                 this.#showLog(result.message, console.warn);
             }

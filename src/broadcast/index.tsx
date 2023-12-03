@@ -25,7 +25,7 @@ const useBroadcast = (UserID: string) => {
   };
 
   VentSpace.add.listen((newUser: IVentSpaceUser) => {
-    console.log("added new user");
+    //console.log("added new user");
     store.dispatch(VentSpaceSlice.actions.addUser(newUser));
 
     const ActiveUsers = store.getState().ventSpace.activeUsers;
@@ -33,7 +33,7 @@ const useBroadcast = (UserID: string) => {
   });
 
   VentSpace.update.listen((updateData: any) => {
-    console.log("edited a user");
+    //console.log("edited a user");
     store.dispatch(VentSpaceSlice.actions.updateUser(updateData));
 
     if (updateData._id == UserID) {
@@ -56,7 +56,7 @@ const useBroadcast = (UserID: string) => {
   });
 
   VentSpace.remove.listen((toBeRemovedUser: string) => {
-    console.log("removed a user");
+    //console.log("removed a user");
     store.dispatch(VentSpaceSlice.actions.removeUser(toBeRemovedUser));
 
     const ActiveUsers = store.getState().ventSpace.activeUsers;
@@ -75,7 +75,7 @@ const useBroadcast = (UserID: string) => {
   });
 
   UserSpace.session.listen((payload: any) => {
-    //console.log("recieved info:", payload);
+    ////console.log("recieved info:", payload);
     if (payload.message) {
       store.dispatch(ConversationSlice.actions.addMessage(payload.message));
     }
