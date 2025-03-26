@@ -1,5 +1,4 @@
 //@ts-ignore
-import Qwick from "qwickjs";
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { sortMessagesByTimestamp } from "../../utils/Helpers";
 

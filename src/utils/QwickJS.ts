@@ -5,9 +5,9 @@
  * Released under the MIT License.
  */
 
+//@ts-nocheck
 import { io } from "socket.io-client";
-
-const this_qwickEndpoint = "https://qwick.onrender.com";;
+const this_qwickEndpoint = "https://qwick.onrender.com";
 
 class Qwick {
     reconnectAttempts = 0;
@@ -22,7 +22,7 @@ class Qwick {
         this.config = config;
         this.configInfo = config?.info ? config.info : {};
 
-        if(!io) {
+        if (!io) {
             this.#showLog("Socket.io Client Library not detected. And Qwick Initilization failed as it is a primary dpendency", console.error);
             return false;
         }
@@ -34,7 +34,7 @@ class Qwick {
         this.#handleDisconnect();
 
 
-        if(!disconnectWatcher) {
+        if (!disconnectWatcher) {
             this.disconnectChannel = new Qwick(`${channelID}:disconnected`, config, true);
         }
     }
@@ -54,7 +54,7 @@ class Qwick {
         return result.existence;
     }
 
-    #showLog(log, logger = //console.log) {
+    #showLog(log, logger = console.log) {
         if (this.config?.allowLogging) {
             const timestamp = new Date().toISOString();
             let methodName = 'Method';
@@ -103,7 +103,13 @@ class Qwick {
         this.disconnectChannel.listen(callback);
     }
 
+    cleanup() {
+        this.socket.removeAllListeners();
+        this.socket.disconnect();
+    }
+
     async broadcast(payload = Object, scope = "self") {
+        if (typeof payload !== "object") this.#showLog('Payload must be of type <object>, type given:' + typeof payload, console.error);
         this.#showLog('Sending message with payload: ' + JSON.stringify(payload));
         let pingType = scope;
 
@@ -175,7 +181,7 @@ class Qwick {
             body: JSON.stringify({
                 channelID: this.channelID,
                 key: pingTo,
-                payload,
+                payload: payload || {},
             }),
         });
     }
@@ -188,7 +194,7 @@ class Qwick {
         if (response.ok) {
             const result = await response.json();
             if (result.success) {
-                this.#showLog(result.message, //console.log);
+                this.#showLog(result.message, console.log);
             } else {
                 this.#showLog(result.message, console.warn);
             }

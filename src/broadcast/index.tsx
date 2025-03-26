@@ -1,10 +1,11 @@
 //@ts-ignore
-import Qwick from "qwickjs";
+
 import { store } from "../store";
-import { IVentSpaceUser, VentSpaceSlice } from "../store/slices/VentSpace";
-import { IVentSpace, IUserSpace } from "../store/slices/Broadcaster";
-import { UserSlice } from "../store/slices/User";
+import { IUserSpace, IVentSpace } from "../store/slices/Broadcaster";
 import { ConversationSlice } from "../store/slices/Conversation";
+import { UserSlice } from "../store/slices/User";
+import { IVentSpaceUser, VentSpaceSlice } from "../store/slices/VentSpace";
+import Qwick from "../utils/plugins";
 
 const useBroadcast = (UserID: string) => {
   const VentSpace: IVentSpace = {

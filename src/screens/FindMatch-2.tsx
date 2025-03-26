@@ -1,13 +1,12 @@
 //@ts-ignore
-import Qwick from "qwickjs";
-import { useSelector } from "react-redux";
-import Card, { Paragraph, Title } from "../components/card";
-import Header from "../components/header";
-import { HiMiniSignal } from "react-icons/hi2";
-import { RootState } from "../store";
-import ConditionalRender from "../components/ConditionalRender";
 import { Fragment, useEffect, useState } from "react";
+import { HiMiniSignal } from "react-icons/hi2";
+import { useSelector } from "react-redux";
 import Button, { ButtonSecondary } from "../components/button";
+import Card, { Paragraph, Title } from "../components/card";
+import ConditionalRender from "../components/ConditionalRender";
+import Header from "../components/header";
+import { RootState } from "../store";
 
 const SearchingForMatch = () => {
   return (
@@ -32,11 +31,7 @@ export default function FindMatch2() {
 
   const messageUser = (userID: string) => {
     return 0;
-    if (!userInstances[userID]) {
-      userInstances[userID] = new Qwick(userID, { allowLogging: true });
-    }
 
-    userInstances[userID].broadcast("wassup!--" + userID, "public");
   };
 
   useEffect(() => {

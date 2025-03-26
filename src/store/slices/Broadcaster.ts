@@ -1,7 +1,9 @@
 //@ts-ignore
-import Qwick from "qwickjs";
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import Qwick from '../../utils/plugins';
 //import useBroadcast from "../../broadcast";
+
+type Qwick = typeof Qwick;
 
 export interface IVentSpace {
     add: Qwick;

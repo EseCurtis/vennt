@@ -1,6 +1,8 @@
 // userCommunication.ts
+
+import Qwick from "../../../utils/plugins";
+
 //@ts-ignore
-import Qwick from "qwickjs";
 const instances: any[string] = [];
 
 const userCommunication = {
