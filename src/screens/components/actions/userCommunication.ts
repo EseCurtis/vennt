@@ -1,7 +1,7 @@
 // userCommunication.ts
 //@ts-ignore
 import Qwick from "qwickjs";
-const instances: Qwick[string] = [];
+const instances: any[string] = [];
 
 const userCommunication = {
   messageUser: (userID: string, message: { body: string, authorID: string, timestamp: number }) => {
